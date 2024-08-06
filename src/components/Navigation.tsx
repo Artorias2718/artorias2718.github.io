@@ -11,10 +11,11 @@ const Navigation = (): ReactElement => {
 
     return (
         <Box sx={styles.container}>
-            <MuiLink component={RouterLink} style={styles.link} to='/'>Home</MuiLink>
-            <MuiLink component={RouterLink} style={styles.link} to='/progress'>Progress</MuiLink>
-            <MuiLink component={RouterLink} style={styles.link} to='/parcels'>Parcels</MuiLink>
-            <MuiLink component={RouterLink} style={styles.link} to='/advice'>Advice</MuiLink>
+            <MuiLink component={RouterLink} style={styles.link} to='/atlasearth'>Home</MuiLink>
+            <MuiLink component={RouterLink} style={styles.link} to='/atlasearth/progress'>Progress</MuiLink>
+            <MuiLink component={RouterLink} style={styles.link} to='/atlasearth/parcels'>Parcels</MuiLink>
+            <MuiLink component={RouterLink} style={styles.link} to='/atlasearth/advice'>Advice</MuiLink>
+            <MuiLink component={RouterLink} style={styles.link} to='/atlasearth/resources'>Resources</MuiLink>
         </Box>
     );
 };

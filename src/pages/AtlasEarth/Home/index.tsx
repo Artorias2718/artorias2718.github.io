@@ -4,7 +4,7 @@ import { Typography, Grid } from '@mui/material';
 const Home = (): ReactElement => (
     <Grid container spacing={2}>
         <Grid item lg={10}>
-            <Typography variant="h1" component="h1">Atlas Earth Guide</Typography>
+            <Typography variant="h1" component="h1">Atlas Earth</Typography>
             <Typography>
                 Welcome to Atlas Earth, it's Artorias2718! As both a well-known whale and veteran Atlas Earth player, I thought I'd share some guidance for those of you who are relatively new or just wondering how to progress faster
             </Typography>

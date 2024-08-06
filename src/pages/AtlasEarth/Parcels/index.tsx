@@ -4,9 +4,9 @@ import { css } from '@emotion/react';
 import { Grid, Typography, Box } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { decode } from "html-entities";
-import ImageComponent from '../../components/Image.tsx';
-import parcelAccrualImg from '../../assets/Img/Home/ParcelAccrual.jpg';
-import data from '../../assets/Data/Home/Data.json';
+import ImageComponent from '../../../components/Image.tsx';
+import parcelAccrualImg from '../../../assets/Img/Home/ParcelAccrual.jpg';
+import data from '../../../assets/Data/Parcels/Data.ts';
 
 const Parcels = (): ReactElement => {
     const styles = {
