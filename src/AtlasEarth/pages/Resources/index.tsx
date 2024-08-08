@@ -3,7 +3,7 @@
 import { ReactElement } from 'react';
 import { Grid, Typography, Link as MuiLink } from '@mui/material';
 import { Link as RouterLink } from "react-router-dom";
-import data from '../../../assets/Data/Resources/Data.ts';
+import data from '../../assets/Data/Resources/Data.ts';
 
 const Resources = (): ReactElement => {
 

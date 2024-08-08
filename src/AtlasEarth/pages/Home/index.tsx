@@ -1,5 +1,5 @@
-import { ReactElement } from 'react';
-import { Typography, Grid } from '@mui/material';
+import { Grid, Typography } from "@mui/material";
+import { ReactElement } from "react";
 
 const Home = (): ReactElement => (
     <Grid container spacing={2}>
