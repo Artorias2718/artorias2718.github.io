@@ -5,6 +5,7 @@ import Home from "./AtlasEarth/pages/Home";
 import Progress from "./AtlasEarth/pages/Progress";
 import Parcels from "./AtlasEarth/pages/Parcels";
 import Advice from "./AtlasEarth/pages/Advice";
+import FAQ from "./AtlasEarth/pages/FAQ";
 import Resources from "./AtlasEarth/pages/Resources";
 import Root from "./Root/";
 import './App.css'
@@ -16,6 +17,7 @@ const RouteDict = {
             <Route path="progress" element={<Progress />} />
             <Route path="parcels" element={<Parcels />} />
             <Route path="advice" element={<Advice />} />
+            <Route path="faq" element={<FAQ />} />
             <Route path="resources" element={<Resources />} />
         </Route>
     )

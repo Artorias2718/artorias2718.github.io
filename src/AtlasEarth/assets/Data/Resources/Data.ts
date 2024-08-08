@@ -20,6 +20,11 @@ const data = [
     href: "https://atlasearthguides.com"
   },
   {
+    label: "Atlas Earth Official FAQ",
+    desc: "",
+    href: "https://atlasreality.helpshift.com/nc/en/3-atlas-earth/"
+  },
+  {
     label: "Atlas Earth Badge Map",
     desc: "This map lists several cities confirmed to have badges available",
     href: "https://www.google.com/maps/d/u/1/viewer?mid=1vmWmmdRxwyvxHDoo-DVafQw0TT-UHGA&ll=40.550343240518764%2C-139.9425336&z=3"

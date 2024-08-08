@@ -15,6 +15,7 @@ const Navigation = (): ReactElement => {
             <MuiLink component={RouterLink} style={styles.link} to='/atlasearth/progress'>Progress</MuiLink>
             <MuiLink component={RouterLink} style={styles.link} to='/atlasearth/parcels'>Parcels</MuiLink>
             <MuiLink component={RouterLink} style={styles.link} to='/atlasearth/advice'>Advice</MuiLink>
+            <MuiLink component={RouterLink} style={styles.link} to='/atlasearth/faq'>FAQ</MuiLink>
             <MuiLink component={RouterLink} style={styles.link} to='/atlasearth/resources'>Resources</MuiLink>
         </Box>
     );
