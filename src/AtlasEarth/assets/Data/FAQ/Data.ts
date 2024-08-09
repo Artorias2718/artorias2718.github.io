@@ -12,6 +12,10 @@ const data = [
         answer: 'After buying your first <strong>five badges</strong>, you can subscribe to the Explorers Club for <strong>$50/mo.</strong> from the <strong>Web App</strong>'
     },
     {
+        question: 'My individual and leaderboard parcel counts are off',
+        answer: 'If you buy parcels away from home, then you may notice a discrepancy in your local leaderboards. These show count based on your current location, so if you travel between states/provinces, or to different cities and buy parcels, that\'s why'
+    },
+    {
         question: 'How do I sell some parcels?',
         answer: 'Click on the <strong>Buy Now </strong> button, select one of your parcels around you, set a price, and wait. The minimum price is  <strong>150ABs </strong>. Once sold, you get  <strong>80%</strong> of the sale price'
     },
