@@ -9,6 +9,16 @@ import FAQ from "./AtlasEarth/pages/FAQ";
 import Resources from "./AtlasEarth/pages/Resources";
 import Root from "./Root/";
 import './App.css'
+import { ErrorBoundary } from "react-error-boundary";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            staleTime: 5 * 60 * 1000
+        }
+    }
+});
 
 const RouteDict = {
     AtlasEarth: () => (
@@ -30,12 +40,16 @@ const App = (): ReactElement => {
 
     return (
     <>
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Root />} />
-                {RouteDict.AtlasEarth()}
-            </Routes>
-        </BrowserRouter>
+        <QueryClientProvider client={queryClient}>
+            <ErrorBoundary>
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/" element={<Root />} />
+                        {RouteDict.AtlasEarth()}
+                    </Routes>
+                </BrowserRouter>
+            </ErrorBoundary>
+        </QueryClientProvider>
     </>
 )};
 

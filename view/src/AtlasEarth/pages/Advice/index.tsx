@@ -29,7 +29,7 @@ const Advice = (): ReactElement => {
                                 The reason most players stick to them is because they're worried about a sudden drop in rent
                                 accrual whenever their boost multiplier is reduced. However, whether you're still
                                 at 30/20x boost or you've made it to 2x, the rent accrual is abysmal; so even though you
-                                would losbit of money for a while between tiers, I personally don't see a reason to worry
+                                would lose a bit of money for a while between tiers, I personally don't see a reason to worry
                                 about it.
                             </Typography>
                         </Box>

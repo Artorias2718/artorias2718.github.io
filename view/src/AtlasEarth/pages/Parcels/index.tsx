@@ -6,7 +6,11 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { decode } from "html-entities";
 import ImageComponent from '../../components/Image.tsx';
 import parcelAccrualImg from '../../assets/Img/Home/ParcelAccrual.jpg';
-import data from '../../assets/Data/Parcels/Data.ts';
+import useGetParcelTypes from "../../api/queryHooks/parcels/useGetParcelTypes";
+import useGetRentTable from "../../api/queryHooks/parcels/useGetRentTable.ts";
+import { IParcelType, IRentRow } from "../../Types.ts";
+import { ErrorBoundary } from "react-error-boundary";
+//import data from '../../assets/Data/Parcels/Data.ts';
 
 const Parcels = (): ReactElement => {
     const styles = {
@@ -32,7 +36,19 @@ const Parcels = (): ReactElement => {
         maxWidth: 150
     };
 
-    const parcelColumns: GridColDef[] = [
+    const { data: parcelTypesResponse } = useGetParcelTypes();
+    const { data: usaTableResponse } = useGetRentTable('usa');
+    const { data: mexTableResponse } = useGetRentTable('mex');
+    const { data: intlTableResponse } = useGetRentTable('intl');
+
+    const parcelTypesData = parcelTypesResponse && parcelTypesResponse.data ? parcelTypesResponse.data : [];
+    const tableData = {
+        'usa': usaTableResponse && usaTableResponse.data ? usaTableResponse.data : [],
+        'mex': mexTableResponse && mexTableResponse.data ? mexTableResponse.data : [],
+        'intl': intlTableResponse && intlTableResponse.data ? intlTableResponse.data : []
+    };
+
+    const parcelColumns: GridColDef<IParcelType>[] = [
         {
             field: 'parcelType',
             headerName: 'Parcel Type',
@@ -40,7 +56,8 @@ const Parcels = (): ReactElement => {
             minWidth: 50,
             maxWidth: 100,
             renderCell: ({ row: item }) => {
-                return <span css={styles.white}>{item['parcelType']}</span>;
+                return <span css={styles.white}>{item.type}</span>
+                // return <span css={styles.white}>{item['parcelType']}</span>;
             }
         },
         {
@@ -50,7 +67,7 @@ const Parcels = (): ReactElement => {
             minWidth: 100,
             maxWidth: 200,
             renderCell: ({ row: item }) => {
-                const parcelRate = item['parcelRate'];
+                const parcelRate = item.rate;
                 const amount = parcelRate < 1
                     ? <span>{`${decode(`$${(parcelRate * 1000000000).toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}&times;10`)}`}<sup>-9</sup></span>
                     : decode(`$${parcelRate.toLocaleString('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}`);
@@ -59,7 +76,7 @@ const Parcels = (): ReactElement => {
         }
     ];
 
-    const rentColumns: GridColDef[] = [
+    const rentColumns: GridColDef<IRentRow>[] = [
         {
             field: 'parcelCount',
             headerName: 'Parcel Count',
@@ -74,7 +91,7 @@ const Parcels = (): ReactElement => {
                 </Typography>
             ),
             renderCell: ({ row: item }) => {
-                const row = item['row'];
+                const row = item.row;
                 return <span css={styles.white}>{row[1] > 0 ? decode(`${row[0].toLocaleString()}&ndash;${row[1].toLocaleString()}`) : decode(row[0].toLocaleString())}</span>;
             }
         },
@@ -90,7 +107,7 @@ const Parcels = (): ReactElement => {
                 </Typography>
             ),
             renderCell: ({ row: item }) => {
-                const row = item['row'];
+                const row = item.row;
                 return <span css={styles.white}>{decode(`${row[2]}&times;`)}</span>;
             }
         },
@@ -108,7 +125,7 @@ const Parcels = (): ReactElement => {
                 </Typography>
             ),
             renderCell: ({ row: item }) => {
-                const row = item['row'];
+                const row = item.row;
                 const amount = row[3] < 1
                     ? <span>{`${decode(`$${(Math.round(row[3] * 10000) / 1000).toLocaleString('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}&times;10`)}`}<sup>-1</sup></span>
                     : decode(`$${row[3].toLocaleString('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}`);
@@ -129,7 +146,7 @@ const Parcels = (): ReactElement => {
                 </Typography>
             ),
             renderCell: ({ row: item }) => {
-                const row = item['row'];
+                const row = item.row;
                 const amount = row[4] < 1
                     ? <span>{`${decode(`$${(Math.round(row[4] * 10000) / 1000).toLocaleString('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}&times;10`)}`}<sup>-1</sup></span>
                     : decode(`$${row[4].toLocaleString('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}`);
@@ -150,7 +167,7 @@ const Parcels = (): ReactElement => {
                 </Typography>
             ),
             renderCell: ({ row: item }) => {
-                const row = item['row'];
+                const row = item.row;
                 const amount = row[5] < 1
                     ? <span>{`${decode(`$${(Math.round(row[5] * 10000) / 1000).toLocaleString('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}&times;10`)}`}<sup>-1</sup></span>
                     : decode(`$${row[5].toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);
@@ -171,7 +188,7 @@ const Parcels = (): ReactElement => {
                 </Typography>
             ),
             renderCell: ({ row: item }) => {
-                const row = item['row'];
+                const row = item.row;
                 const amount = row[6] < 1
                     ? <span>{`${decode(`$${(Math.round(row[6] * 10000) / 1000).toLocaleString('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}&times;10`)}`}<sup>-1</sup></span>
                     : decode(`$${row[6].toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);
@@ -196,7 +213,7 @@ const Parcels = (): ReactElement => {
                 </Grid>
                 <Grid item xs={12} lg={6}>
                     <Grid item xs={12} css={styles.parcelDataGridContainer}>
-                        <DataGrid css={styles.parcelDataGridContainer} columns={parcelColumns} rows={data['parcelTypes']} hideFooter={true} />
+                        <DataGrid css={styles.parcelDataGridContainer} columns={parcelColumns} rows={(parcelTypesData ? parcelTypesData : []) as IParcelType[]} hideFooter={true} />
                     </Grid>
                 </Grid>
             </Grid>
@@ -220,10 +237,10 @@ const Parcels = (): ReactElement => {
             </Grid>
             <Grid item container spacing={2}>
                 <Grid item xs={12}>
-                    <Typography variant='h2' component='h2' css={styles.alignCenter}>US</Typography>
+                    <Typography variant='h2' component='h2' css={styles.alignCenter}>USA</Typography>
                     <Box css={styles.rentDataGridContainer}>
                         <DataGrid columns={rentColumns}
-                                  rows={data['rentTables']['usa'].map((row) => row)}
+                                  rows={(tableData['usa'] as IRentRow[]).map((row) => row)}
                                   hideFooter={true}/>
                     </Box>
                 </Grid>
@@ -231,7 +248,7 @@ const Parcels = (): ReactElement => {
                     <Typography variant='h2' component='h2' css={styles.alignCenter}>Mexico</Typography>
                     <Box css={styles.rentDataGridContainer}>
                         <DataGrid columns={rentColumns}
-                                  rows={data['rentTables']['mex'].map((row) => row)}
+                                  rows={(tableData['mex'] as IRentRow[]).map((row) => row)}
                                   hideFooter={true} />
                     </Box>
                 </Grid>
@@ -239,7 +256,7 @@ const Parcels = (): ReactElement => {
                     <Typography variant='h2' component='h2' css={styles.alignCenter}>International</Typography>
                     <Box css={styles.rentDataGridContainer}>
                         <DataGrid columns={rentColumns}
-                                  rows={data['rentTables']['intl'].map((row) => row)}
+                                  rows={(tableData['intl'] as IRentRow[]).map((row) => row)}
                                   hideFooter={true} />
                     </Box>
                 </Grid>
