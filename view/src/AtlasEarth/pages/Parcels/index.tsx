@@ -4,9 +4,11 @@ import { css } from '@emotion/react';
 import { Grid, Typography, Box } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { decode } from "html-entities";
+import parse from 'html-react-parser';
 import ImageComponent from '../../components/Image.tsx';
 import parcelAccrualImg from '../../assets/Img/Home/ParcelAccrual.jpg';
-import data from '../../assets/Data/Parcels/Data.ts';
+import useGetAtlasEarth from "../../api/queryHooks/useGetAtlasEarth";
+import { IData, IParcelType, IRentRow } from "../../Types";
 
 const Parcels = (): ReactElement => {
     const styles = {
@@ -32,7 +34,24 @@ const Parcels = (): ReactElement => {
         maxWidth: 150
     };
 
-    const parcelColumns: GridColDef[] = [
+    const { data: parcelTypesResponse } = useGetAtlasEarth(3);
+    const { data: parcelsResponse } = useGetAtlasEarth(4);
+    const { data: rentTablesResponse } = useGetAtlasEarth(5);
+
+    const parcelTypesData = parcelTypesResponse && parcelTypesResponse?.data() ? parcelTypesResponse.data().data : [];
+    const parcelsData = parcelsResponse && parcelsResponse.data() ? parcelsResponse.data().data : [];
+    const rentTablesData = rentTablesResponse && rentTablesResponse?.data() ? rentTablesResponse.data().data : [];
+
+    const section1: IData = parcelsData && parcelsData.section1 && parcelsData.section1;
+    const section2: IData = parcelsData && parcelsData.section2 && parcelsData.section2;
+
+    const tableData = {
+        'usa': rentTablesData && rentTablesData.usa ? rentTablesData.usa : [],
+        'mex': rentTablesData && rentTablesData.mex ? rentTablesData.mex : [],
+        'intl': rentTablesData && rentTablesData.intl ? rentTablesData.intl : []
+    };
+
+    const parcelColumns: GridColDef<IParcelType>[] = [
         {
             field: 'parcelType',
             headerName: 'Parcel Type',
@@ -40,7 +59,7 @@ const Parcels = (): ReactElement => {
             minWidth: 50,
             maxWidth: 100,
             renderCell: ({ row: item }) => {
-                return <span css={styles.white}>{item['parcelType']}</span>;
+                return <span css={styles.white}>{item.type}</span>
             }
         },
         {
@@ -50,7 +69,7 @@ const Parcels = (): ReactElement => {
             minWidth: 100,
             maxWidth: 200,
             renderCell: ({ row: item }) => {
-                const parcelRate = item['parcelRate'];
+                const parcelRate = item.rate;
                 const amount = parcelRate < 1
                     ? <span>{`${decode(`$${(parcelRate * 1000000000).toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}&times;10`)}`}<sup>-9</sup></span>
                     : decode(`$${parcelRate.toLocaleString('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}`);
@@ -59,7 +78,7 @@ const Parcels = (): ReactElement => {
         }
     ];
 
-    const rentColumns: GridColDef[] = [
+    const rentColumns: GridColDef<IRentRow>[] = [
         {
             field: 'parcelCount',
             headerName: 'Parcel Count',
@@ -74,7 +93,7 @@ const Parcels = (): ReactElement => {
                 </Typography>
             ),
             renderCell: ({ row: item }) => {
-                const row = item['row'];
+                const row = item.row;
                 return <span css={styles.white}>{row[1] > 0 ? decode(`${row[0].toLocaleString()}&ndash;${row[1].toLocaleString()}`) : decode(row[0].toLocaleString())}</span>;
             }
         },
@@ -90,7 +109,7 @@ const Parcels = (): ReactElement => {
                 </Typography>
             ),
             renderCell: ({ row: item }) => {
-                const row = item['row'];
+                const row = item.row;
                 return <span css={styles.white}>{decode(`${row[2]}&times;`)}</span>;
             }
         },
@@ -108,10 +127,10 @@ const Parcels = (): ReactElement => {
                 </Typography>
             ),
             renderCell: ({ row: item }) => {
-                const row = item['row'];
+                const row = item.row;
                 const amount = row[3] < 1
                     ? <span>{`${decode(`$${(Math.round(row[3] * 10000) / 1000).toLocaleString('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}&times;10`)}`}<sup>-1</sup></span>
-                    : decode(`$${row[3].toLocaleString('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}`);
+                    : decode(`$${row[3].toLocaleString('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 4 })}`);
                 return <span css={styles.white}>{amount}</span>;
             }
         },
@@ -129,7 +148,7 @@ const Parcels = (): ReactElement => {
                 </Typography>
             ),
             renderCell: ({ row: item }) => {
-                const row = item['row'];
+                const row = item.row;
                 const amount = row[4] < 1
                     ? <span>{`${decode(`$${(Math.round(row[4] * 10000) / 1000).toLocaleString('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}&times;10`)}`}<sup>-1</sup></span>
                     : decode(`$${row[4].toLocaleString('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}`);
@@ -150,7 +169,7 @@ const Parcels = (): ReactElement => {
                 </Typography>
             ),
             renderCell: ({ row: item }) => {
-                const row = item['row'];
+                const row = item.row;
                 const amount = row[5] < 1
                     ? <span>{`${decode(`$${(Math.round(row[5] * 10000) / 1000).toLocaleString('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}&times;10`)}`}<sup>-1</sup></span>
                     : decode(`$${row[5].toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);
@@ -171,7 +190,7 @@ const Parcels = (): ReactElement => {
                 </Typography>
             ),
             renderCell: ({ row: item }) => {
-                const row = item['row'];
+                const row = item.row;
                 const amount = row[6] < 1
                     ? <span>{`${decode(`$${(Math.round(row[6] * 10000) / 1000).toLocaleString('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}&times;10`)}`}<sup>-1</sup></span>
                     : decode(`$${row[6].toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);
@@ -180,10 +199,10 @@ const Parcels = (): ReactElement => {
         }
     ];
 
-    return (
+    return section1 && section2 && (
         <Grid container spacing={2}>
             <Grid item xs={12}>
-                <Typography variant='h2' component='h2' css={styles.alignCenter}>How much money do parcels give you?</Typography>
+                <Typography variant='h2' component='h2' css={styles.alignCenter}>{section1.label}</Typography>
             </Grid>
 
             <Grid container item spacing={2}>
@@ -196,34 +215,23 @@ const Parcels = (): ReactElement => {
                 </Grid>
                 <Grid item xs={12} lg={6}>
                     <Grid item xs={12} css={styles.parcelDataGridContainer}>
-                        <DataGrid css={styles.parcelDataGridContainer} columns={parcelColumns} rows={data['parcelTypes']} hideFooter={true} />
+                        <DataGrid css={styles.parcelDataGridContainer} columns={parcelColumns} rows={(parcelTypesData ? parcelTypesData : []) as IParcelType[]} hideFooter={true} />
                     </Grid>
                 </Grid>
             </Grid>
 
             <Grid item xs={12}>
                 <Typography>
-                    These amounts are in USD, and it's how much you earn every second of the day per parcel. Now, of
-                    course, AR is first and foremost a business, so they have to ensure that they're making way more
-                    money than us in order to survive. Sadly, this has resulted in many people who find out about
-                    this game calling it a scam. While it may seem that way at first glance, you can try it
-                    risk-free by playing F2P, play it until you accrue at lest $5, then cash-out and see for
-                    yourself.
+                    {parse(section1.description)}
                 </Typography>
                 <br/>
-                <Typography>
-                    Due to differences in ad revenue and international conversion rates, AE currently uses three
-                    different tier sets
-                    for the US, Mexico, and every other country that has finally joined the game. In order to stay
-                    profitable, AR has to reduce the boost multiplier as players buy more parcels:
-                </Typography>
             </Grid>
             <Grid item container spacing={2}>
                 <Grid item xs={12}>
-                    <Typography variant='h2' component='h2' css={styles.alignCenter}>US</Typography>
+                    <Typography variant='h2' component='h2' css={styles.alignCenter}>USA</Typography>
                     <Box css={styles.rentDataGridContainer}>
                         <DataGrid columns={rentColumns}
-                                  rows={data['rentTables']['usa'].map((row) => row)}
+                                  rows={(tableData['usa'] as IRentRow[]).map((row) => row)}
                                   hideFooter={true}/>
                     </Box>
                 </Grid>
@@ -231,7 +239,7 @@ const Parcels = (): ReactElement => {
                     <Typography variant='h2' component='h2' css={styles.alignCenter}>Mexico</Typography>
                     <Box css={styles.rentDataGridContainer}>
                         <DataGrid columns={rentColumns}
-                                  rows={data['rentTables']['mex'].map((row) => row)}
+                                  rows={(tableData['mex'] as IRentRow[]).map((row) => row)}
                                   hideFooter={true} />
                     </Box>
                 </Grid>
@@ -239,22 +247,15 @@ const Parcels = (): ReactElement => {
                     <Typography variant='h2' component='h2' css={styles.alignCenter}>International</Typography>
                     <Box css={styles.rentDataGridContainer}>
                         <DataGrid columns={rentColumns}
-                                  rows={data['rentTables']['intl'].map((row) => row)}
+                                  rows={(tableData['intl'] as IRentRow[]).map((row) => row)}
                                   hideFooter={true} />
                     </Box>
                 </Grid>
             </Grid>
             <Grid item xs={12}>
+                <br/>
                 <Typography>
-                    Each line tells you how many parcels you can buy before your boost multiplier drops. In
-                    the <strong>US</strong>, for example, <strong>150 parcels</strong> is the most you can buy if
-                    you'd like to stay
-                    at <strong>30x</strong>; as soon as you buy your <strong>151st parcel</strong>, you're down to
-                    a <strong>20x boost</strong> multiplier. A common strategy among players is to do whatever it
-                    takes to buy the maximum amount of parcels for a given line (tier), then wait until they have
-                    enough ABs to jump to the next highest tier. For example,
-                    many US players will work their way up to 150 parcels and stay there until they have
-                    purchased/earned 7,000ABs since they are 70 parcels away from 220 parcels.
+                    {parse(section2.description)}
                 </Typography>
             </Grid>
         </Grid>

@@ -1,24 +1,27 @@
-import {ReactElement, useEffect} from 'react'
+import { ReactElement, useEffect } from 'react'
 import { Link as MuiLink } from '@mui/material';
 import { Link as RouterLink } from "react-router-dom";
 import './index.css'
-import data from '../assets/Data/Data.ts';
+import useGetPages from "../api/queryHooks/root/useGetPages.ts";
+import { IPage } from "../Types.ts";
 
 const Root = (): ReactElement => {
     useEffect(() => {
         document.title = 'Artorias2718';
     }, []);
 
-    const regExp = / /g;
+    const { data: pages } = useGetPages();
+    const doc = pages && pages['docs'] && pages['docs'][0];
+
+    const data = doc?.data().data;
 
     return (
         <>
             <h2>Apps</h2>
             <ul>
                 {
-                    data && data.map((item, id) => {
-                        const href = item.replaceAll(regExp, '');
-                        return (<li key={id}><MuiLink component={RouterLink} to={`/${href}`}>{item}</MuiLink></li>);
+                    data && data.map((item: IPage) => {
+                        return (<li key={item.id}><MuiLink component={RouterLink} to={`/${item.href}`}>{item.label}</MuiLink></li>);
                     })
                 }
             </ul>

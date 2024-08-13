@@ -1,9 +1,12 @@
 ﻿using Google.Cloud.Firestore;
-namespace api.Models;
+namespace api.Models.AtlasEarth;
 
 [FirestoreData]
 public partial class FAQ
 {
+    [FirestoreProperty("id")]
+    public int Id { get; set; }
+    
     [FirestoreProperty("question")]
     public string Question { get; set; }
 

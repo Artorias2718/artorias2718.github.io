@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using Google.Cloud.Firestore;
-namespace api.Models;
+namespace api.Models.AtlasEarth;
 
 [FirestoreData]
 public partial class RentRow

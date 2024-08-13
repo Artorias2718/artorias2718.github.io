@@ -1,52 +1,21 @@
 /** @jsxImportSource @emotion/react */
 import { ReactElement, SyntheticEvent, useState } from "react";
-import { css, jsx } from '@emotion/react';
-import { Accordion, AccordionDetails, AccordionSummary, Grid, Typography } from "@mui/material";
-import { styled } from '@mui/material/styles';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import TextField from '../../../components/FormComponents/TextField.tsx';
+import { css } from '@emotion/react';
+import { Grid, Typography } from "@mui/material";
+import TextField from '../../../components/FormComponents/TextField';
 import { useForm } from 'react-hook-form';
-import parse from 'html-react-parser';
-import data from '../../assets/Data/FAQ/Data.ts';
-
-interface Props {
-    id: number;
-    question: string;
-    answer: string;
-    expanded: string | false;
-    handleChange: (id: number) => (event: SyntheticEvent, newExpanded: boolean) => void;
-}
+import useGetAtlasEarth from "../../api/queryHooks/useGetAtlasEarth";
+import FAQComponent from "./FAQComponent";
+import { IFAQ } from "../../Types";
 
 interface SearchFormValues {
     searchQuery: string;
 }
 
-const RenderFAQ = ({ id, question, answer, expanded, handleChange }: Props) => {
-    const styles = {
-        container: css({
-            marginTop: '0.5rem',
-            marginBottom: '0.5rem',
-            paddingTop: '0.5rem',
-            paddingBottom: '0.5rem'
-        })
-    }
-    return (
-        <Accordion css={styles.container} expanded={expanded === `panel${id}`} onChange={handleChange(id)}>
-            <AccordionSummary expandIcon={<ArrowDropDownIcon />}>
-                <Typography variant="subtitle1">
-                    <strong>Q:</strong> {question}
-                </Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-                <Typography variant="body2">
-                    <strong>A:</strong> {parse(answer)}
-                </Typography>
-            </AccordionDetails>
-        </Accordion>
-    );
-};
-
 const FAQ = (): ReactElement => {
+    const { data: faqs } = useGetAtlasEarth(1);
+    const data = faqs && faqs.data && faqs.data().data['en'];
+
     const [expanded, setExpanded] = useState<string | false>(false);
     const { control, watch } = useForm<SearchFormValues>({
         defaultValues: {
@@ -70,7 +39,7 @@ const FAQ = (): ReactElement => {
     }
 
     // Filter the data based on the search query
-    const filteredData = data.filter(item =>
+    const filteredData = data && data.filter((item: IFAQ) =>
         item.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.answer.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -91,9 +60,9 @@ const FAQ = (): ReactElement => {
                 />
             </Grid>
             <Grid item lg={12}>
-                {filteredData.length > 0 ? (
-                    filteredData.map((item, id) => (
-                        <RenderFAQ
+                {filteredData && filteredData.length > 0 ? (
+                    filteredData.map((item: IFAQ, id: number) => (
+                        <FAQComponent
                             key={id}
                             id={id + 1}
                             question={item.question}

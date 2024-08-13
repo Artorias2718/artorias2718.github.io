@@ -1,5 +1,5 @@
 ﻿using Google.Cloud.Firestore;
-namespace api.Models;
+namespace api.Models.AtlasEarth;
 
 [FirestoreData]
 public partial class ParcelType
@@ -8,7 +8,7 @@ public partial class ParcelType
     public int Id { get; set; }
 
     [FirestoreProperty("rate")]
-    public decimal Rate { get; set; }
+    public double Rate { get; set; }
     
     [FirestoreProperty("type")]
     public string Type { get; set; } = "";
