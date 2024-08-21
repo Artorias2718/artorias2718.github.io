@@ -4,8 +4,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddSingleton<RootService>();
 builder.Services.AddSingleton<AtlasEarthService>();
+builder.Services.AddSingleton<ImageService>();
+builder.Services.AddSingleton<RootService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

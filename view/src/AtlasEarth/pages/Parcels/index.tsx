@@ -4,13 +4,10 @@ import { css } from '@emotion/react';
 import { Grid, Typography, Box } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { decode } from "html-entities";
-import ImageComponent from '../../components/Image.tsx';
-import parcelAccrualImg from '../../assets/Img/Home/ParcelAccrual.jpg';
 import useGetParcelTypes from "../../api/queryHooks/parcels/useGetParcelTypes";
-import useGetRentTable from "../../api/queryHooks/parcels/useGetRentTable.ts";
-import { IParcelType, IRentRow } from "../../Types.ts";
-import { ErrorBoundary } from "react-error-boundary";
-//import data from '../../assets/Data/Parcels/Data.ts';
+import useGetRentTable from "../../api/queryHooks/parcels/useGetRentTable";
+import { IParcelType, IRentRow } from "../../Types";
+import ImageComponent from "../../../components/ImageComponent.tsx";
 
 const Parcels = (): ReactElement => {
     const styles = {
@@ -40,6 +37,8 @@ const Parcels = (): ReactElement => {
     const { data: usaTableResponse } = useGetRentTable('usa');
     const { data: mexTableResponse } = useGetRentTable('mex');
     const { data: intlTableResponse } = useGetRentTable('intl');
+
+    //console.log(JSON.stringify(imageAccrualResponse));
 
     const parcelTypesData = parcelTypesResponse && parcelTypesResponse.data ? parcelTypesResponse.data : [];
     const tableData = {
@@ -206,9 +205,8 @@ const Parcels = (): ReactElement => {
             <Grid container item spacing={2}>
                 <Grid item xs={12} lg={6}>
                     <Grid item xs={12}>
-                        {parcelAccrualImg &&
-                            <ImageComponent src={parcelAccrualImg as string} alt='Parcel Accrual Table' style={styles.image} />
-                        }
+                        <ImageComponent src='Images/AtlasEarth/ParcelAccrual.jpg' alt='Parcel Accrual Table'
+                        style={{ width: '50%' }}/>
                     </Grid>
                 </Grid>
                 <Grid item xs={12} lg={6}>

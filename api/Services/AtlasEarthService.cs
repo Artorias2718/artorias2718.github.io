@@ -11,20 +11,20 @@ namespace api.Services;
 
 public class AtlasEarthService
 {
-    private readonly FirestoreDb _atlasEarthDb;
     private readonly IMapper _mapper;
+    private readonly CollectionReference _collectionRef;
 
     public AtlasEarthService(IMapper mapper)
     {
         // Initialize Firestore with your project ID
-        _atlasEarthDb = FirestoreDb.Create("artorias2718-a309e");
+        FirestoreDb atlasEarthDb = FirestoreDb.Create("artorias2718-a309e");
         _mapper = mapper;
+        _collectionRef = atlasEarthDb.Collection("atlasearth");
     }
 
     public async Task<ICollection<FAQReadDto>> FAQs()
     {
-        DocumentReference docRef = _atlasEarthDb.Collection("atlasearth").Document("faqs");
-        DocumentSnapshot snapshot = await docRef.GetSnapshotAsync();
+        DocumentSnapshot snapshot = await _collectionRef.Document("faqs").GetSnapshotAsync();
 
         if (snapshot.Exists)
         {
@@ -39,7 +39,7 @@ public class AtlasEarthService
     
     public async Task<ICollection<ParcelTypeReadDto>> ParcelTypes()
     {
-        DocumentReference docRef = _atlasEarthDb.Collection("atlasearth").Document("parcelTypes");
+        DocumentReference docRef = _collectionRef.Document("parcelTypes");
         DocumentSnapshot snapshot = await docRef.GetSnapshotAsync();
  
         if (snapshot.Exists)
@@ -55,7 +55,7 @@ public class AtlasEarthService
     
     public async Task<ICollection<RentRowReadDto>> RentTable(string key)
     {
-        DocumentReference docRef = _atlasEarthDb.Collection("atlasearth").Document("rentTables");
+        DocumentReference docRef = _collectionRef.Document("rentTables");
         DocumentSnapshot snapshot = await docRef.GetSnapshotAsync();
 
         if (snapshot.Exists)
@@ -71,7 +71,7 @@ public class AtlasEarthService
     
      public async Task<ICollection<ResourceReadDto>> Resources()
      {
-         DocumentReference docRef = _atlasEarthDb.Collection("atlasearth").Document("resources");
+         DocumentReference docRef = _collectionRef.Document("resources");
          DocumentSnapshot snapshot = await docRef.GetSnapshotAsync();
   
          if (snapshot.Exists)

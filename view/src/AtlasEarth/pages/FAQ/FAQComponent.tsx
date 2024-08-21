@@ -1,4 +1,5 @@
-import {css} from "@emotion/react";
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 import {Accordion, AccordionDetails, AccordionSummary, Typography} from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import parse from "html-react-parser";

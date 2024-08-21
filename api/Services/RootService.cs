@@ -11,20 +11,20 @@ namespace api.Services;
 
 public class RootService
 {
-    private readonly FirestoreDb _sharedDb;
     private readonly IMapper _mapper;
+    private readonly CollectionReference _collectionRef;
 
     public RootService(IMapper mapper)
     {
         // Initialize Firestore with your project ID
-        _sharedDb = FirestoreDb.Create("artorias2718-a309e");
+        FirestoreDb rootDb = FirestoreDb.Create("artorias2718-a309e");
         _mapper = mapper;
+        _collectionRef = rootDb.Collection("root");
     }
 
     public async Task<ICollection<PageReadDto>> Pages()
     {
-        DocumentReference docRef = _sharedDb.Collection("root").Document("pages");
-        DocumentSnapshot snapshot = await docRef.GetSnapshotAsync();
+        DocumentSnapshot snapshot = await _collectionRef.Document("pages").GetSnapshotAsync();
 
         if (snapshot.Exists)
         {

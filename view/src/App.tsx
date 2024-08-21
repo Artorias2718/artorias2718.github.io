@@ -1,4 +1,5 @@
 import { ReactElement, useEffect } from 'react'
+import { Alert } from "@mui/material";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AtlasEarth from "./AtlasEarth/AtlasEarth.tsx";
 import Home from "./AtlasEarth/pages/Home";
@@ -10,7 +11,7 @@ import Resources from "./AtlasEarth/pages/Resources";
 import Root from "./Root/";
 import './App.css'
 import { ErrorBoundary } from "react-error-boundary";
-import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -41,7 +42,7 @@ const App = (): ReactElement => {
     return (
     <>
         <QueryClientProvider client={queryClient}>
-            <ErrorBoundary>
+            <ErrorBoundary fallback={<Alert severity='error'>We're sorry, an error occured!</Alert>}>
                 <BrowserRouter>
                     <Routes>
                         <Route path="/" element={<Root />} />
@@ -53,4 +54,4 @@ const App = (): ReactElement => {
     </>
 )};
 
-export default App
+export default App;
