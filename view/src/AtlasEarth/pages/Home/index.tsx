@@ -10,6 +10,8 @@ const Home = (): ReactElement => {
 
     const section1: IData = data && data.en && data.en.section1;
     const section2: IData = data && data.en && data.en.section2;
+    const referralBaseUrl = 'https://r.atlasearth.com';
+    const referralLink = data && data.referralCode && `If you haven't already, get started <a href='${referralBaseUrl}/${data.referralCode}'>here</a> for free.`;
 
     return section1 && section2 && (
         <Grid container spacing={2}>
@@ -22,7 +24,7 @@ const Home = (): ReactElement => {
             <Grid item>
                 <Typography variant="h2" component="h2">{section2.label}</Typography>
                 <Typography>
-                    {parse(section2.description)}
+                    {parse(section2.description.replaceAll('{{REFERRAL_LINK}}', referralLink))}
                 </Typography>
             </Grid>
         </Grid>
