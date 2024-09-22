@@ -5,6 +5,7 @@ import Navigation from './components/Navigation';
 const AtlasEarth = (): ReactElement => (
     <>
         <Navigation />
+        <br />
         {
             // This is where child routes will be rendered
         }
