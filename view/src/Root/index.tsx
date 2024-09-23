@@ -4,6 +4,7 @@ import { Link as RouterLink } from "react-router-dom";
 import './index.css'
 import useGetPages from "../api/queryHooks/root/useGetPages.ts";
 import { IPage } from "../Types.ts";
+import GoogleAd from "../components/GoogleAd.tsx";
 
 const Root = (): ReactElement => {
     useEffect(() => {
@@ -17,6 +18,12 @@ const Root = (): ReactElement => {
 
     return (
         <>
+            <GoogleAd
+                client=''
+                slot=''
+            />
+
+            <br />
             <h2>Apps</h2>
             <ul>
                 {
