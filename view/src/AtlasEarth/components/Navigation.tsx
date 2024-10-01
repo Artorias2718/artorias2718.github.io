@@ -1,11 +1,12 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react';
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { Box, Link as MuiLink } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
+import {Link as RouterLink, useLocation} from "react-router-dom";
 
 const Navigation = (): ReactElement => {
+    const location = useLocation();
     const [activeLink, setActiveLink] = useState<number | null>(null);
 
     const styles = {
@@ -28,6 +29,33 @@ const Navigation = (): ReactElement => {
     const updateActiveLink = (index: number) => {
         setActiveLink(index);
     };
+
+    useEffect(() => {
+        // Set the active link based on the current URL path
+        switch (location.pathname) {
+            case '/atlasearth':
+                setActiveLink(0);
+                break;
+            case '/atlasearth/timeline':
+                setActiveLink(1);
+                break;
+            case '/atlasearth/parcels':
+                setActiveLink(2);
+                break;
+            case '/atlasearth/advice':
+                setActiveLink(3);
+                break;
+            case '/atlasearth/faq':
+                setActiveLink(4);
+                break;
+            case '/atlasearth/resources':
+                setActiveLink(5);
+                break;
+            default:
+                setActiveLink(null);
+                break;
+        }
+    }, [location.pathname]);
 
     return (
         <Box sx={styles.container}>
