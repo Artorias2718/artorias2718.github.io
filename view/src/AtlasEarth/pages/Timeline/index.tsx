@@ -14,12 +14,8 @@ const Timeline = (): ReactElement => {
         <Grid container spacing={2}>
             <Grid item>
                 <Typography variant='h2' component='h2'>{section1.label}</Typography>
-                <Typography>
-                    {parse(section1.description)}
-                </Typography>
-                <Typography>
-                    {parse(section2.description)}
-                </Typography>
+                {parse(section1.description)}
+                {parse(section2.description)}
             </Grid>
         </Grid>
     );
