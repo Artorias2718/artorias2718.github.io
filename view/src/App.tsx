@@ -47,7 +47,7 @@ const App = (): ReactElement => {
             <ErrorBoundary fallback={<div>Loading</div>}>
                 <BrowserRouter>
                     <Routes>
-                        <Route path="/" element={<Root />} />
+                        <Route path='/' element={<Root />} />
                         {RouteDict.AtlasEarth()}
                     </Routes>
                 </BrowserRouter>

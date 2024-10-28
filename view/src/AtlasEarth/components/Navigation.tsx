@@ -4,6 +4,7 @@ import { css } from '@emotion/react';
 import { ReactElement, useEffect, useState } from "react";
 import { Box, Link as MuiLink } from "@mui/material";
 import {Link as RouterLink, useLocation} from "react-router-dom";
+import GoogleAd from "../../components/GoogleAd.tsx";
 
 const Navigation = (): ReactElement => {
     const location = useLocation();
@@ -14,6 +15,7 @@ const Navigation = (): ReactElement => {
             display: 'flex',
             gap: '1rem',
             alignItems: 'center',
+            paddingBottom: '1.5rem'
         }),
         link: (isActive: boolean) => css({
             background: isActive ? '#00f' : '#025',
@@ -58,50 +60,55 @@ const Navigation = (): ReactElement => {
     }, [location.pathname]);
 
     return (
-        <Box sx={styles.container}>
-            <MuiLink
-                component={RouterLink}
-                css={styles.link(activeLink === 0)}
-                onClick={() => updateActiveLink(0)}
-                to='/atlasearth'>
-                Home
-            </MuiLink>
-            <MuiLink
-                component={RouterLink}
-                css={styles.link(activeLink === 1)}
-                onClick={() => updateActiveLink(1)}
-                to='/atlasearth/timeline'>
-                Timeline
-            </MuiLink>
-            <MuiLink
-                component={RouterLink}
-                css={styles.link(activeLink === 2)}
-                onClick={() => updateActiveLink(2)}
-                to='/atlasearth/parcels'>
-                Parcels
-            </MuiLink>
-            <MuiLink
-                component={RouterLink}
-                css={styles.link(activeLink === 3)}
-                onClick={() => updateActiveLink(3)}
-                to='/atlasearth/advice'>
-                Advice
-            </MuiLink>
-            <MuiLink
-                component={RouterLink}
-                css={styles.link(activeLink === 4)}
-                onClick={() => updateActiveLink(4)}
-                to='/atlasearth/faq'>
-                FAQ
-            </MuiLink>
-            <MuiLink
-                component={RouterLink}
-                css={styles.link(activeLink === 5)}
-                onClick={() => updateActiveLink(5)}
-                to='/atlasearth/resources'>
-                Resources
-            </MuiLink>
-        </Box>
+        <>
+            <Box sx={styles.container}>
+                <GoogleAd />
+            </Box>
+            <Box sx={styles.container}>
+                <MuiLink
+                    component={RouterLink}
+                    css={styles.link(activeLink === 0)}
+                    onClick={() => updateActiveLink(0)}
+                    to='/atlasearth'>
+                    Home
+                </MuiLink>
+                <MuiLink
+                    component={RouterLink}
+                    css={styles.link(activeLink === 1)}
+                    onClick={() => updateActiveLink(1)}
+                    to='/atlasearth/timeline'>
+                    Timeline
+                </MuiLink>
+                <MuiLink
+                    component={RouterLink}
+                    css={styles.link(activeLink === 2)}
+                    onClick={() => updateActiveLink(2)}
+                    to='/atlasearth/parcels'>
+                    Parcels
+                </MuiLink>
+                <MuiLink
+                    component={RouterLink}
+                    css={styles.link(activeLink === 3)}
+                    onClick={() => updateActiveLink(3)}
+                    to='/atlasearth/advice'>
+                    Advice
+                </MuiLink>
+                <MuiLink
+                    component={RouterLink}
+                    css={styles.link(activeLink === 4)}
+                    onClick={() => updateActiveLink(4)}
+                    to='/atlasearth/faq'>
+                    FAQ
+                </MuiLink>
+                <MuiLink
+                    component={RouterLink}
+                    css={styles.link(activeLink === 5)}
+                    onClick={() => updateActiveLink(5)}
+                    to='/atlasearth/resources'>
+                    Resources
+                </MuiLink>
+            </Box>
+        </>
     );
 };
 

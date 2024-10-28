@@ -39,3 +39,9 @@
 .read-the-docs {
   color: #888;
 }
+
+.ad-container {
+  width: 100%;   /* Make sure it has a width */
+  min-height: 250px; /* Set a minimum height */
+  display: block; /* Ensure it does not collapse */
+}

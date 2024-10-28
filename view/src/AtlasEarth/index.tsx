@@ -6,10 +6,7 @@ const AtlasEarth = (): ReactElement => (
     <>
         <Navigation />
         <br />
-        {
-            // This is where child routes will be rendered
-        }
-        <Outlet />
+        <Outlet />  {/* This is where child routes will be rendered */}
     </>
 );
 
