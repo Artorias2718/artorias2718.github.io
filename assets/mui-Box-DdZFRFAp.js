@@ -1,0 +1,1 @@
+import{c as e,T as a}from"./mui-styles-DbLOnfEf.js";import{g as s,i as t,C as o}from"./@mui-UoK_28Vw.js";const r=s("MuiBox",["root"]),m=e(),c=t({themeId:a,defaultTheme:m,defaultClassName:r.root,generateClassName:o.generate});export{c as B};

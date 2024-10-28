@@ -1,0 +1,1 @@
+import{_ as o}from"./@babel-CoH1aX8U.js";import{j as e}from"./react-BgJWeQTy.js";import{b as r,T as s}from"./mui-styles-DbLOnfEf.js";import{G as m}from"./@mui-UoK_28Vw.js";function p(t){return e.jsx(m,o({},t,{defaultTheme:r,themeId:s}))}export{p as G};
