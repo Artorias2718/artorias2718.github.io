@@ -10,7 +10,7 @@
 <script type="text/javascript">
     // Redirect to the current path within the app by adding it as a hash
     var pathname = window.location.pathname;
-    var hashPath = pathname ? `/#${pathname}` : "/";
+    var hashPath = pathname ? pathname : "/";
 
     // Redirect to the root URL with the current path as a hash
     window.location.replace(hashPath);
