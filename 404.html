@@ -5,9 +5,12 @@
     <script>
         // Redirect to the root, preserving the path
         var pathname = window.location.pathname;
-        if (pathname) {
-            window.location.href = "/" + "#" + pathname;
-        }
+        var hashPath = pathname
+            ? `/#${pathname}`
+            : '/';
+
+        // Redirect to the root URL with the current path as a hash
+        window.location.replace(hashPath);
     </script>
 </head>
 <body>
