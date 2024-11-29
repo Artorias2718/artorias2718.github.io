@@ -1,5 +1,5 @@
 import { lazy, ReactElement, useEffect } from 'react'
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import AtlasEarth from "./AtlasEarth/index.tsx";
 import Home from "./AtlasEarth/pages/Home";
 import Timeline from "./AtlasEarth/pages/Timeline";
@@ -47,7 +47,7 @@ const App = (): ReactElement => {
             <ErrorBoundary fallback={<div>Loading</div>}>
                 <BrowserRouter>
                     <Routes>
-                        <Route path='/' element={<Root />} />
+                        <Route path='/' element={<Navigate to='/atlasearth' replace />} />
                         {RouteDict.AtlasEarth()}
                     </Routes>
                 </BrowserRouter>
