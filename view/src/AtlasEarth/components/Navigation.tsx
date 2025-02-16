@@ -13,9 +13,9 @@ const Navigation = (): ReactElement => {
     const styles = {
         container: css({
             display: 'flex',
-            gap: '1rem',
-            alignItems: 'center',
-            paddingBottom: '1.5rem'
+            gap: '1.5rem',
+            justifyContent: 'center',
+            paddingBottom: '3.5rem'
         }),
         link: (isActive: boolean) => css({
             background: isActive ? '#00f' : '#025',
@@ -62,9 +62,6 @@ const Navigation = (): ReactElement => {
     return (
         <>
             <Box sx={styles.container}>
-                <GoogleAd />
-            </Box>
-            <Box sx={styles.container}>
                 <MuiLink
                     component={RouterLink}
                     css={styles.link(activeLink === 0)}
@@ -107,6 +104,9 @@ const Navigation = (): ReactElement => {
                     to='/atlasearth/resources'>
                     Resources
                 </MuiLink>
+            </Box>
+            <Box>
+                <GoogleAd />
             </Box>
         </>
     );
