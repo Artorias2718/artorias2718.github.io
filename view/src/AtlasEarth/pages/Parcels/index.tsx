@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { ReactElement } from 'react';
 import { css } from '@emotion/react';
-import { Grid, Typography, Box } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { decode } from "html-entities";
 import parse from 'html-react-parser';
@@ -205,20 +205,16 @@ const Parcels = (): ReactElement => {
                 <Typography variant='h2' component='h2' css={styles.alignCenter}>{section1.label}</Typography>
             </Grid>
 
-            <Grid container item spacing={2}>
-                <Grid item xs={12} lg={6}>
-                    <Grid item xs={12}>
-                        {parcelAccrualImg &&
-                            <ImageComponent src={parcelAccrualImg as string} alt='Parcel Accrual Table' style={styles.image} />
-                        }
-                    </Grid>
+            <Box css={css({display: 'inline-flex', width: '100%' })}>
+                <Grid item xs={12} xl={6}>
+                    {parcelAccrualImg &&
+                        <ImageComponent src={parcelAccrualImg as string} alt='Parcel Accrual Table' style={styles.image} />
+                    }
                 </Grid>
-                <Grid item xs={12} lg={6}>
-                    <Grid item xs={12} css={styles.parcelDataGridContainer}>
-                        <DataGrid css={styles.parcelDataGridContainer} columns={parcelColumns} rows={(parcelTypesData ? parcelTypesData : []) as IParcelType[]} hideFooter={true} />
-                    </Grid>
+                <Grid item xs={12} xl={6}>
+                    <DataGrid css={styles.parcelDataGridContainer} columns={parcelColumns} rows={(parcelTypesData ? parcelTypesData : []) as IParcelType[]} hideFooter={true} />
                 </Grid>
-            </Grid>
+            </Box>
 
             <Grid item xs={12}>
                 <Typography>
@@ -226,8 +222,7 @@ const Parcels = (): ReactElement => {
                 </Typography>
                 <br/>
             </Grid>
-            <Grid item container spacing={2}>
-                <Grid item xs={12}>
+                <Grid item xs={6}>
                     <Typography variant='h2' component='h2' css={styles.alignCenter}>USA</Typography>
                     <Box css={styles.rentDataGridContainer}>
                         <DataGrid columns={rentColumns}
@@ -235,7 +230,7 @@ const Parcels = (): ReactElement => {
                                   hideFooter={true}/>
                     </Box>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={6}>
                     <Typography variant='h2' component='h2' css={styles.alignCenter}>Mexico</Typography>
                     <Box css={styles.rentDataGridContainer}>
                         <DataGrid columns={rentColumns}
@@ -251,7 +246,6 @@ const Parcels = (): ReactElement => {
                                   hideFooter={true} />
                     </Box>
                 </Grid>
-            </Grid>
             <Grid item xs={12}>
                 <br/>
                 <Typography>
