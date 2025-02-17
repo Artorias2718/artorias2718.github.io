@@ -48,6 +48,9 @@ const Parcels = (): ReactElement => {
     const tableData = {
         'usa': rentTablesData && rentTablesData.usa ? rentTablesData.usa : [],
         'mex': rentTablesData && rentTablesData.mex ? rentTablesData.mex : [],
+        'gerfra': rentTablesData && rentTablesData.gerfra ? rentTablesData.gerfra : [],
+        'skorjpn': rentTablesData && rentTablesData.skorjpn ? rentTablesData.skorjpn : [],
+        'brz': rentTablesData && rentTablesData.brz ? rentTablesData.brz : [],
         'intl': rentTablesData && rentTablesData.intl ? rentTablesData.intl : []
     };
 
@@ -238,7 +241,31 @@ const Parcels = (): ReactElement => {
                                   hideFooter={true} />
                     </Box>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={6}>
+                    <Typography variant='h2' component='h2' css={styles.alignCenter}>Germany/France</Typography>
+                    <Box css={styles.rentDataGridContainer}>
+                        <DataGrid columns={rentColumns}
+                                  rows={(tableData['gerfra'] as IRentRow[]).map((row) => row)}
+                                  hideFooter={true} />
+                    </Box>
+                </Grid>
+                <Grid item xs={6}>
+                    <Typography variant='h2' component='h2' css={styles.alignCenter}>S. Korea/Japan</Typography>
+                    <Box css={styles.rentDataGridContainer}>
+                        <DataGrid columns={rentColumns}
+                                  rows={(tableData['skorjpn'] as IRentRow[]).map((row) => row)}
+                                  hideFooter={true} />
+                    </Box>
+                </Grid>
+                <Grid item xs={6}>
+                    <Typography variant='h2' component='h2' css={styles.alignCenter}>Brazil</Typography>
+                    <Box css={styles.rentDataGridContainer}>
+                        <DataGrid columns={rentColumns}
+                                  rows={(tableData['brz'] as IRentRow[]).map((row) => row)}
+                                  hideFooter={true} />
+                    </Box>
+                </Grid>
+                <Grid item xs={6}>
                     <Typography variant='h2' component='h2' css={styles.alignCenter}>International</Typography>
                     <Box css={styles.rentDataGridContainer}>
                         <DataGrid columns={rentColumns}
