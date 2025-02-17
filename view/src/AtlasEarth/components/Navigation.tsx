@@ -4,7 +4,7 @@ import { css } from '@emotion/react';
 import { ReactElement, useEffect, useState } from "react";
 import { Box, Link as MuiLink } from "@mui/material";
 import {Link as RouterLink, useLocation} from "react-router-dom";
-import GoogleAd from "../../components/GoogleAd.tsx";
+import GoogleAd from "../../components/GoogleAd";
 
 const Navigation = (): ReactElement => {
     const location = useLocation();
