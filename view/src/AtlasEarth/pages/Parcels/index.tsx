@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
-import {ChangeEvent, ReactElement, useState} from 'react';
+import { ReactElement, useState } from 'react';
 import { css } from '@emotion/react';
-import { Box, Grid, Pagination, Stack, Typography } from '@mui/material';
+import { Box, Grid, Pagination, PaginationItem, Stack, Typography } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { decode } from "html-entities";
 import parse from 'html-react-parser';
@@ -207,9 +207,18 @@ const Parcels = (): ReactElement => {
     const itemsPerPage = 2;
     const totalPages = Math.ceil(tables.length / itemsPerPage);
 
-    const handleChange = (_e: ChangeEvent<unknown>, value: number) => {
-        setPage(value);
-    }
+    const handleChange = (_event: React.ChangeEvent<unknown>, value: number) => {
+        if (value < 1) {
+            setPage(totalPages); // If clicking "Previous" on first page, go to last page
+        }
+        else if (value > totalPages) {
+            setPage(1); // If clicking "Next" on last page, go to first page
+        }
+        else {
+            setPage(value); // Otherwise, change to selected page
+        }
+    };
+
 
     const startIndex = (page - 1) * itemsPerPage;
     const currentTables = tables.slice(startIndex, startIndex + itemsPerPage);
@@ -263,6 +272,11 @@ const Parcels = (): ReactElement => {
                         })}
                         onChange={handleChange}
                         color='primary'
+                        renderItem={(item) => (
+                            <PaginationItem
+                                {...item}
+                                disabled={false} />
+                        )}
                     />
                 </Stack>
                 <Grid item xs={12}>
