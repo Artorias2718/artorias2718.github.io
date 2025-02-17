@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
-import { ReactElement } from 'react';
+import {ChangeEvent, ReactElement, useState} from 'react';
 import { css } from '@emotion/react';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Grid, Pagination, Stack, Typography } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { decode } from "html-entities";
 import parse from 'html-react-parser';
@@ -11,6 +11,8 @@ import useGetAtlasEarth from "../../api/queryHooks/useGetAtlasEarth";
 import { IData, IParcelType, IRentRow } from "../../Types";
 
 const Parcels = (): ReactElement => {
+    const [page, setPage] = useState(1);
+
     const styles = {
         alignCenter: css({ textAlign: 'center' }),
         bold: css({ fontWeight: 'bold' }),
@@ -44,15 +46,6 @@ const Parcels = (): ReactElement => {
 
     const section1: IData = parcelsData && parcelsData.section1 && parcelsData.section1;
     const section2: IData = parcelsData && parcelsData.section2 && parcelsData.section2;
-
-    const tableData = {
-        'usa': rentTablesData && rentTablesData.usa ? rentTablesData.usa : [],
-        'mex': rentTablesData && rentTablesData.mex ? rentTablesData.mex : [],
-        'gerfra': rentTablesData && rentTablesData.gerfra ? rentTablesData.gerfra : [],
-        'skorjpn': rentTablesData && rentTablesData.skorjpn ? rentTablesData.skorjpn : [],
-        'brz': rentTablesData && rentTablesData.brz ? rentTablesData.brz : [],
-        'intl': rentTablesData && rentTablesData.intl ? rentTablesData.intl : []
-    };
 
     const parcelColumns: GridColDef<IParcelType>[] = [
         {
@@ -202,84 +195,84 @@ const Parcels = (): ReactElement => {
         }
     ];
 
+    const tables= [
+        { title: 'USA', data: rentTablesData && rentTablesData.usa ? rentTablesData.usa : [] },
+        { title: 'Mexico', data: rentTablesData && rentTablesData.mex ? rentTablesData.mex : [] },
+        { title: 'Germany/France', data: rentTablesData && rentTablesData.gerfra ? rentTablesData.gerfra : [] },
+        { title: 'S. Korea/Japan', data: rentTablesData && rentTablesData.skorjpn ? rentTablesData.skorjpn : [] },
+        { title: 'Brazil', data: rentTablesData && rentTablesData.brz ? rentTablesData.brz : [] },
+        { title: 'International', data:  rentTablesData && rentTablesData.intl ? rentTablesData.intl : [] }
+    ];
+
+    const itemsPerPage = 2;
+    const totalPages = Math.ceil(tables.length / itemsPerPage);
+
+    const handleChange = (_e: ChangeEvent<unknown>, value: number) => {
+        setPage(value);
+    }
+
+    const startIndex = (page - 1) * itemsPerPage;
+    const currentTables = tables.slice(startIndex, startIndex + itemsPerPage);
+
     return section1 && section2 && (
-        <Grid container spacing={2}>
-            <Grid item xs={12}>
-                <Typography variant='h2' component='h2' css={styles.alignCenter}>{section1.label}</Typography>
-            </Grid>
+        <>
+            <Grid container spacing={2}>
+                <Grid item xs={12}>
+                    <Typography variant='h2' component='h2' css={styles.alignCenter}>{section1.label}</Typography>
+                </Grid>
 
-            <Box css={css({display: 'inline-flex', width: '100%' })}>
-                <Grid item xs={12} xl={6}>
-                    {parcelAccrualImg &&
-                        <ImageComponent src={parcelAccrualImg as string} alt='Parcel Accrual Table' style={styles.image} />
-                    }
-                </Grid>
-                <Grid item xs={12} xl={6}>
-                    <DataGrid css={styles.parcelDataGridContainer} columns={parcelColumns} rows={(parcelTypesData ? parcelTypesData : []) as IParcelType[]} hideFooter={true} />
-                </Grid>
-            </Box>
+                <Box css={css({display: 'inline-flex', width: '100%' })}>
+                    <Grid item xs={12} xl={6}>
+                        {parcelAccrualImg &&
+                            <ImageComponent src={parcelAccrualImg as string} alt='Parcel Accrual Table' style={styles.image} />
+                        }
+                    </Grid>
+                    <Grid item xs={12} xl={6}>
+                        <DataGrid css={styles.parcelDataGridContainer} columns={parcelColumns} rows={(parcelTypesData ? parcelTypesData : []) as IParcelType[]} hideFooter={true} />
+                    </Grid>
+                </Box>
 
-            <Grid item xs={12}>
-                <Typography>
-                    {parse(section1.description)}
-                </Typography>
-                <br/>
+                <Grid item xs={12}>
+                    <Typography>
+                        {parse(section1.description)}
+                    </Typography>
+                    <br/>
+                </Grid>
+                <Stack spacing={2} alignItems='center'>
+                    <Grid container spacing={2}>
+                        {
+                            currentTables.map((item, index) => (
+                                <Grid item xs={6} key={index}>
+                                    <Typography variant='h2' component='h2' align='center'>{item.title}</Typography>
+                                    <Box css={css({ height: '28.13rem', width: '100%' })}>
+                                        <DataGrid columns={rentColumns}
+                                                  rows={(item.data as IRentRow[]).map((row) => row)}
+                                                  hideFooter={true} />
+                                    </Box>
+                                </Grid>
+                            ))
+                        }
+                    </Grid>
+                    <Pagination
+                        count={totalPages}
+                        page={page}
+                        css={css({
+                            '& .MuiPaginationItem-root': { color: '#fff' },
+                            '& .Mui-selected': { backgroundColor: '#00f', color: '#fff' },
+                            '& .MuiPaginationItem-ellipsis': { color: '#fff' }
+                        })}
+                        onChange={handleChange}
+                        color='primary'
+                    />
+                </Stack>
+                <Grid item xs={12}>
+                    <br/>
+                    <Typography>
+                        {parse(section2.description)}
+                    </Typography>
+                </Grid>
             </Grid>
-                <Grid item xs={6}>
-                    <Typography variant='h2' component='h2' css={styles.alignCenter}>USA</Typography>
-                    <Box css={styles.rentDataGridContainer}>
-                        <DataGrid columns={rentColumns}
-                                  rows={(tableData['usa'] as IRentRow[]).map((row) => row)}
-                                  hideFooter={true}/>
-                    </Box>
-                </Grid>
-                <Grid item xs={6}>
-                    <Typography variant='h2' component='h2' css={styles.alignCenter}>Mexico</Typography>
-                    <Box css={styles.rentDataGridContainer}>
-                        <DataGrid columns={rentColumns}
-                                  rows={(tableData['mex'] as IRentRow[]).map((row) => row)}
-                                  hideFooter={true} />
-                    </Box>
-                </Grid>
-                <Grid item xs={6}>
-                    <Typography variant='h2' component='h2' css={styles.alignCenter}>Germany/France</Typography>
-                    <Box css={styles.rentDataGridContainer}>
-                        <DataGrid columns={rentColumns}
-                                  rows={(tableData['gerfra'] as IRentRow[]).map((row) => row)}
-                                  hideFooter={true} />
-                    </Box>
-                </Grid>
-                <Grid item xs={6}>
-                    <Typography variant='h2' component='h2' css={styles.alignCenter}>S. Korea/Japan</Typography>
-                    <Box css={styles.rentDataGridContainer}>
-                        <DataGrid columns={rentColumns}
-                                  rows={(tableData['skorjpn'] as IRentRow[]).map((row) => row)}
-                                  hideFooter={true} />
-                    </Box>
-                </Grid>
-                <Grid item xs={6}>
-                    <Typography variant='h2' component='h2' css={styles.alignCenter}>Brazil</Typography>
-                    <Box css={styles.rentDataGridContainer}>
-                        <DataGrid columns={rentColumns}
-                                  rows={(tableData['brz'] as IRentRow[]).map((row) => row)}
-                                  hideFooter={true} />
-                    </Box>
-                </Grid>
-                <Grid item xs={6}>
-                    <Typography variant='h2' component='h2' css={styles.alignCenter}>International</Typography>
-                    <Box css={styles.rentDataGridContainer}>
-                        <DataGrid columns={rentColumns}
-                                  rows={(tableData['intl'] as IRentRow[]).map((row) => row)}
-                                  hideFooter={true} />
-                    </Box>
-                </Grid>
-            <Grid item xs={12}>
-                <br/>
-                <Typography>
-                    {parse(section2.description)}
-                </Typography>
-            </Grid>
-        </Grid>
+        </>
     );
 };
 
