@@ -7,8 +7,8 @@ const Timeline = (): ReactElement => {
     const { data: timeline } = useGetAtlasEarth(7);
     const data = timeline && timeline.data() && timeline.data().data;
 
-    const section1 = data && data.en && data.en.section1;
-    const section2 = data && data.en && data.en.section2;
+    const section1 = data && data && data.section1;
+    const section2 = data && data && data.section2;
 
     return section1 && section2 && (
         <Grid container spacing={2}>

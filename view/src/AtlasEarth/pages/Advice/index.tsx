@@ -19,8 +19,8 @@ const Advice = (): ReactElement => {
 
     const data = advice && advice.data() && advice.data().data;
 
-    const section1 = data && data.en && data.en.section1;
-    const section2 = data && data.en && data.en.section2;
+    const section1 = data && data && data.section1;
+    const section2 = data && data && data.section2;
 
     const list1: IData[] = section2 && section2.list1 && section2.list1;
     const list2: IData[] = section2 && section2.list2 && section2.list2;

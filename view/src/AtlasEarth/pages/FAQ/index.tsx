@@ -14,7 +14,7 @@ interface SearchFormValues {
 
 const FAQ = (): ReactElement => {
     const { data: faqs } = useGetAtlasEarth(1);
-    const data = faqs && faqs.data && faqs.data().data['en'];
+    const data = faqs && faqs.data && faqs.data().data;
 
     const [expanded, setExpanded] = useState<string | false>(false);
     const { control, watch } = useForm<SearchFormValues>({
